@@ -1,0 +1,7 @@
+admin_password: password
+configure_private_vars: {}
+database: internal
+munin_password: password
+pg_password: tpJJKCh7ZKKwnC5tmCUutC6HgKJbGb5GyrSPRE67
+primary_machine: localhost
+redis_password: JnzxaobEUqgzrH6ne2npWegxKb652ShVzasGXGJj
