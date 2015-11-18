@@ -173,7 +173,7 @@
     },
     {
       "type": "file",
-      "source": "inventory",
+      "source": "tower_setup_conf.yml",
       "destination": "/home/ubuntu/ansible-tower-setup/tower_setup_conf.yml"
     },
     {
