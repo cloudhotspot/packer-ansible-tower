@@ -14,7 +14,9 @@
     "aws_vpc_id":"vpc-db0696be",
     "aws_subnet_id": "subnet-97452df2",
     "aws_associate_public_ip_address": "true",
-    "aws_ami_name": "ansible-tower {{timestamp}}"
+    "aws_ami_name": "ansible-tower {{timestamp}}",
+    "ansible_version": "2.0.0-0.5.beta3",
+    "ansible_tower_version": "2.3.1"
   },
   "builders": [
     {
@@ -40,7 +42,7 @@
         "OS_Version": "Ubuntu",
         "Release": "Latest",
         "Application": "Ansible Tower",
-        "Application_Version": "2.2"
+        "Application_Version": "2.4"
       }
     },
     {
@@ -160,7 +162,15 @@
     },
     {
       "type": "shell",
-      "script": "packer/scripts/install-ansible.sh"
+      "inline": [
+        "sudo apt-get install python-pip libgmp-dev -y",
+        "wget http://releases.ansible.com/ansible/ansible-$ANSIBLE_VERSION.tar.gz",
+        "mkdir -p /home/ubuntu/ansible-setup",
+        "tar zxvf ansible-$ANSIBLE_VERSION.tar.gz -C /home/ubuntu/ansible-setup --strip 1",
+        "cd /home/ubuntu/ansible-setup/",
+        "sudo pip install ansible"
+      ],
+      "environment_vars": [ "ANSIBLE_VERSION={{user `ansible_version`}}" ]
     },
     {
       "type": "shell",
@@ -179,10 +189,11 @@
     {
       "type": "shell",
       "inline": [
-        "wget http://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-latest.tar.gz",
-        "tar zxvf ansible-tower-setup-latest.tar.gz -C /home/ubuntu/ansible-tower-setup --strip 1",
+        "wget http://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-$ANSIBLE_TOWER_VERSION.tar.gz",
+        "tar zxvf ansible-tower-setup-$ANSIBLE_TOWER_VERSION.tar.gz -C /home/ubuntu/ansible-tower-setup --strip 1",
         "sudo /home/ubuntu/ansible-tower-setup/setup.sh"
-      ]
+      ],
+      "environment_vars": [ "ANSIBLE_TOWER_VERSION={{user `ansible_tower_version`}}" ]
     }
   ],
   "post-processors": [

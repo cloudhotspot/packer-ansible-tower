@@ -6,13 +6,13 @@ tower:
     private_key_path: ~/.ssh/aws
     region: us-west-2
     keypair_name: "Justin Menga"
-    ami: ami-07150566
+    ami: ami-c71e0ea6
     subnet_id: subnet-97452df2
     associate_public_ip: true
     elastic_ip: true
     instance_type: t2.small
     security_groups:
-      - sg-2fdba34b
+      - sg-a9b7e4cd
     tags:
       application: ansible-tower
       environment: playground
