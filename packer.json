@@ -29,7 +29,7 @@
       "vpc_id": "{{user `aws_vpc_id`}}",
       "subnet_id": "{{user `aws_subnet_id`}}",
       "associate_public_ip_address": "{{user `aws_associate_public_ip_address`}}",
-       "ami_block_device_mappings": [
+       "launch_block_device_mappings": [
         {
           "device_name": "/dev/sda1",
           "volume_size": 15,
