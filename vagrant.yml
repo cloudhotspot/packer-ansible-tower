@@ -6,11 +6,31 @@ tower:
     private_key_path: ~/.ssh/aws
     region: us-west-2
     keypair_name: "Justin Menga"
-    ami: ami-c71e0ea6
+    ami: ami-4ff0e02e
+    subnet_id: subnet-97452df2
+    associate_public_ip: true
+    elastic_ip: true
+    instance_type: t2.micro
+    security_groups:
+      - sg-a9b7e4cd
+    tags:
+      application: ansible-tower
+      environment: playground
+
+ubuntu:
+  box: cloudhotspot/ubuntu
+  aws:
+    private_key_path: ~/.ssh/aws
+    region: us-west-2
+    keypair_name: "Justin Menga"
+    ami: ami-9ad9c9fb
     subnet_id: subnet-97452df2
     associate_public_ip: true
     elastic_ip: true
     instance_type: t2.small
+    block_device_mapping:
+      - "DeviceName": /dev/sda1
+        "Ebs.VolumeSize": 20
     security_groups:
       - sg-a9b7e4cd
     tags:

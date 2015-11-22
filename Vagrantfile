@@ -42,6 +42,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         aws.associate_public_ip = aws_settings["associate_public_ip"] || false
         aws.security_groups = aws_settings["security_groups"] || []
         aws.tags = aws_settings["tags"] || {}
+        aws.block_device_mapping = aws_settings["block_device_mapping"] || []
 
         override.ssh.username = aws_settings["username"] || "ubuntu"
         override.ssh.private_key_path = aws_settings["private_key_path"] || "~/.ssh/id_rsa"

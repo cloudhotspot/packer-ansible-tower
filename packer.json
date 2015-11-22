@@ -15,8 +15,8 @@
     "aws_subnet_id": "subnet-97452df2",
     "aws_associate_public_ip_address": "true",
     "aws_ami_name": "ansible-tower {{timestamp}}",
-    "ansible_version": "2.0.0-0.5.beta3",
-    "ansible_tower_version": "2.3.1"
+    "ansible_version": "1.9.4",
+    "ansible_tower_version": "2.4.1"
   },
   "builders": [
     {
@@ -31,7 +31,7 @@
       "vpc_id": "{{user `aws_vpc_id`}}",
       "subnet_id": "{{user `aws_subnet_id`}}",
       "associate_public_ip_address": "{{user `aws_associate_public_ip_address`}}",
-       "launch_block_device_mappings": [
+      "launch_block_device_mappings": [
         {
           "device_name": "/dev/sda1",
           "volume_size": 15,
@@ -162,37 +162,25 @@
     },
     {
       "type": "shell",
-      "inline": [
-        "sudo apt-get install python-pip libgmp-dev -y",
-        "wget http://releases.ansible.com/ansible/ansible-$ANSIBLE_VERSION.tar.gz",
-        "mkdir -p /home/ubuntu/ansible-setup",
-        "tar zxvf ansible-$ANSIBLE_VERSION.tar.gz -C /home/ubuntu/ansible-setup --strip 1",
-        "cd /home/ubuntu/ansible-setup/",
-        "sudo pip install ansible"
-      ],
-      "environment_vars": [ "ANSIBLE_VERSION={{user `ansible_version`}}" ]
+      "script": "packer/scripts/install-ansible.sh"
     },
     {
       "type": "shell",
-      "inline": [ "mkdir -p /home/ubuntu/ansible-tower-setup" ]
+      "inline": [ "mkdir -p ~/ansible-tower-setup" ]
     },
     {
       "type": "file",
       "source": "inventory",
-      "destination": "/home/ubuntu/ansible-tower-setup/inventory"
+      "destination": "~/ansible-tower-setup/inventory"
     },
     {
       "type": "file",
       "source": "tower_setup_conf.yml",
-      "destination": "/home/ubuntu/ansible-tower-setup/tower_setup_conf.yml"
+      "destination": "~/ansible-tower-setup/tower_setup_conf.yml"
     },
     {
       "type": "shell",
-      "inline": [
-        "wget http://releases.ansible.com/ansible-tower/setup/ansible-tower-setup-$ANSIBLE_TOWER_VERSION.tar.gz",
-        "tar zxvf ansible-tower-setup-$ANSIBLE_TOWER_VERSION.tar.gz -C /home/ubuntu/ansible-tower-setup --strip 1",
-        "sudo /home/ubuntu/ansible-tower-setup/setup.sh"
-      ],
+      "script": "packer/scripts/install-ansible-tower.sh",
       "environment_vars": [ "ANSIBLE_TOWER_VERSION={{user `ansible_tower_version`}}" ]
     }
   ],
